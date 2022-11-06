@@ -4,6 +4,167 @@ import java.util.Map;
 
 public class Solution {
 
+    public int characterReplacement(String s, int k) {
+        int maxLength = 0;
+
+        int[] maxFreq = findMaxFreq(s);
+
+        int i = maxFreq[0] - k;
+        if(i < 0)
+            i = 0;
+        int max = maxFreq[1] + k - 1;
+        for(; i < max && i < s.length(); i++) {
+            //Go right
+            int length = 1;
+            char symbol = s.charAt(i);
+
+            int p = k;
+            int j = i + 1;
+            for(; j < s.length() && p > 0; ++j) {
+                if(s.charAt(j) != symbol) {
+                    p--;
+                }
+                length++;
+            }
+
+            if(p == 0) {
+                while(j < s.length() && s.charAt(j) == symbol) {
+                    j++;
+                    length++;
+                }
+            }
+
+            //Go left
+            j = i - 1;
+            for(; j >= 0 && p > 0; --j) {
+                if(s.charAt(j) != symbol) {
+                    p--;
+                }
+                length++;
+            }
+
+            if(p == 0) {
+                while(j >= 0 && s.charAt(j) == symbol) {
+                    j--;
+                    length++;
+                }
+            }
+
+            if(length > maxLength)
+                maxLength = length;
+        }
+
+
+        return  maxLength;
+    }
+
+    public int[] findMaxFreq(String s) {
+        int[] result = new int[2];
+        int maxFreq = 0;
+        int start = -1;
+
+        int curFreq = 0;
+        char symbol = 0;
+        for(int i = 0; i < s.length(); ++i) {
+            if(s.charAt(i) != symbol) {
+                if(curFreq > maxFreq) {
+                    result[0] = start;
+                    maxFreq = curFreq;
+                }
+
+                start = i;
+                curFreq = 1;
+                symbol = s.charAt(i);
+
+            } else {
+                curFreq++;
+            }
+        }
+
+        if(curFreq > maxFreq) {
+            result[0] = start;
+            maxFreq = curFreq;
+        }
+
+        result[1] = result[0] + maxFreq;
+        return result;
+    }
+
+
+
+    public int characterReplacement_Long(String s, int k) {
+        //XYZZZZABCZZ k = 1 //answer = 5
+        //XYZZZZABCZZ k = 2 //answer = 7
+        //XYZZZZABCZZ k = 3 //answer = 10
+
+        int maxLength = 0;
+        for(int i = 0; i < s.length(); ++i) {
+
+            //Go right
+            int length = 1;
+            char symbol = s.charAt(i);
+
+            int p = k;
+            int j = i + 1;
+            for(; j < s.length() && p > 0; ++j) {
+                if(s.charAt(j) != symbol) {
+                    p--;
+                }
+                length++;
+            }
+
+            if(p == 0) {
+                while(j < s.length() && s.charAt(j) == symbol) {
+                    j++;
+                    length++;
+                }
+            }
+
+            //Go left
+            j = i - 1;
+            for(; j >= 0 && p > 0; --j) {
+                if(s.charAt(j) != symbol) {
+                    p--;
+                }
+                length++;
+            }
+
+            if(p == 0) {
+                while(j >= 0 && s.charAt(j) == symbol) {
+                    j--;
+                    length++;
+                }
+            }
+
+            if(length > maxLength)
+                maxLength = length;
+        }
+
+        return maxLength;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public int characterReplacement_FromINTERNET(String s, int k) {

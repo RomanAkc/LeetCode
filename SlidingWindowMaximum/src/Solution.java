@@ -1,30 +1,32 @@
 import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.TreeMap;
 
 public class Solution {
+
+
     public int[] maxSlidingWindow(int[] nums, int k) {
         int[] result = new int[nums.length - k + 1];
+        Deque<Integer> deque = new LinkedList<>();
 
-        ArrayDeque<Integer> deq = new ArrayDeque<>();
-        int max = nums[0];
-        int max_prev = nums[0];
-
-        for(int i = 0; i <= nums.length; i++) {
+        for(int i  = 0; i < nums.length; ++i) {
             if(i >= k) {
-                result[i - k] = max;
-                int removed = deq.remove();
-                if(removed == max) {
-                    max = max_prev;
+                int x = deque.peekFirst();
+                result[i - k] = x;
+                if(x == nums[i - k]) {
+                    deque.pollFirst();
                 }
             }
 
-            if(i < nums.length) {
-                deq.add(nums[i]);
-                if(nums[i] > max) {
-                    max_prev = max;
-                    max = nums[i];
-                }
+            while(!deque.isEmpty() && deque.peekLast() < nums[i]) {
+                deque.pollLast();
             }
+            deque.addLast(nums[i]);
+        }
+
+        if(!deque.isEmpty() && nums.length >= k) {
+            result[result.length - 1] = deque.peekFirst();
         }
 
         return result;

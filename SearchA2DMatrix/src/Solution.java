@@ -10,12 +10,12 @@ public class Solution {
             else
                 r = mid;
         }
-        if( matrix[r / m][r % m] == target)
+        if(matrix[r / m][r % m] == target)
             return true;
         else
             return false;
     }
-    
+
     public boolean searchMatrix(int[][] matrix, int target) {
         int m = matrix.length;
         int n = matrix[0].length;

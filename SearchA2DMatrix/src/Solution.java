@@ -16,7 +16,7 @@ public class Solution {
             return false;
     }
 
-    public boolean searchMatrix(int[][] matrix, int target) {
+    public boolean searchMatrix3(int[][] matrix, int target) {
         int m = matrix.length;
         int n = matrix[0].length;
         int k = 0;
@@ -28,10 +28,10 @@ public class Solution {
             }
         }
 
-        return bsearch(A, 0, A.length - 1, target);
+        return bsearch3(A, 0, A.length - 1, target);
     }
 
-    boolean bsearch(int[] A, int L, int R, int target) {
+    boolean bsearch3(int[] A, int L, int R, int target) {
         if(L >= R) {
             return target == A[L];
         }
@@ -43,9 +43,33 @@ public class Solution {
         }
 
         if(target > A[M]) {
-            return bsearch(A, M + 1, R, target);
+            return bsearch3(A, M + 1, R, target);
         } else {
-            return bsearch(A, L, M - 1, target);
+            return bsearch3(A, L, M - 1, target);
+        }
+    }
+
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        return bsearch(matrix, m, n, 0, matrix.length * matrix[0].length - 1, target);
+    }
+
+    boolean bsearch(int[][] matrix, int m, int n, int L, int R, int target) {
+        if(L >= R) {
+            return target == matrix[R / n][R % n];
+        }
+
+        int M = (L + R - 1) / 2;
+
+        if(matrix[M / n][M % n] == target) {
+            return true;
+        }
+
+        if(target > matrix[M / n][M % n]) {
+            return bsearch(matrix, m, n, M + 1, R, target);
+        } else {
+            return bsearch(matrix, m, n, L, M, target);
         }
     }
 }

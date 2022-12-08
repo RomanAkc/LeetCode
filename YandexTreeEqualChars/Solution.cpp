@@ -33,3 +33,35 @@ std::pair<int, std::pair<Node*, Node*>> Solution::GetValueForNode(Node *node, st
     return {value, {nullptr, nullptr}};
 }
 
+std::pair<Node *, Node *> Solution::FindEqualsSimple(Node *root) {
+    std::multimap<int, Node*> mapValues;
+    FillMapValues(root, mapValues);
+    if(mapValues.size() < 2)
+        return {};
+
+    auto it_prev = mapValues.begin();
+    auto it_curr = std::next(it_prev);
+    while (it_curr != mapValues.end()) {
+        if(it_prev->first == it_curr->first)
+            return {it_prev->second, it_curr->second};
+
+        auto it_next = std::next(it_curr);
+        it_prev = it_curr;
+        it_curr = it_next;
+    }
+
+    return {};
+}
+
+int Solution::FillMapValues(Node *node, std::multimap<int, Node *> &mapValues) {
+    if(node == nullptr)
+        return 0;
+
+    int l = FillMapValues(node->left, mapValues);
+    int r = FillMapValues(node->right, mapValues);
+
+    int value = l | r | (1 << (node->c - 'A'));
+    mapValues.emplace(value, node);
+    return value;
+}
+

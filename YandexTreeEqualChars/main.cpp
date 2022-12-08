@@ -11,9 +11,9 @@ void printNodePair(Node* p1, Node* p2);
 int main() {
     auto s = std::make_unique<Solution>();
     Node* n1 = createTree({'D', 'A', 'B', '\0', 'C', '\0', 'D', '\0', '\0', 'D', '\0', '\0', '\0', '\0', 'A', '\0', '\0', '\0', '\0', '\0', 'B', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', 'C', '\0'});
-    printNodePair(s->FindEquals(n1));
+    printNodePair(s->FindEqualsSimple(n1));
     Node* n2 = createTree({'C', 'C', 'C'});
-    printNodePair(s->FindEquals(n2));
+    printNodePair(s->FindEqualsSimple(n2));
     return 0;
 }
 

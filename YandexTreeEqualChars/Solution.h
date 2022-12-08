@@ -15,9 +15,11 @@ struct Node;
 class Solution {
 public:
     std::pair<Node*, Node*> FindEquals(Node* root);
+    std::pair<Node*, Node*> FindEqualsSimple(Node* root);
 
 private:
     std::pair<int, std::pair<Node*, Node*>> GetValueForNode(Node* node, std::map<int, Node *> &mapValues);
+    int FillMapValues(Node* node, std::multimap<int, Node *> &mapValues);
 };
 
 

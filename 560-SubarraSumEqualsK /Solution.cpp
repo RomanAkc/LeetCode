@@ -4,23 +4,22 @@
 
 #include "Solution.h"
 #include <algorithm>
+#include <unordered_map>
 
 int Solution::subarraySum(std::vector<int> &nums, int k) {
     int counter = 0;
     int sum = 0;
+    std::unordered_map<int, int> mapSum;
 
+    mapSum[0] = 1;
     for(int i = 0; i < nums.size(); ++i) {
-        sum = nums[i];
+        sum += nums[i];
 
-        if(sum == k)
-            counter++;
-
-        for(int j = i + 1; j < nums.size(); ++j) {
-            sum += nums[j];
-
-            if(sum == k)
-                counter++;
+        if(mapSum.find(sum - k) != mapSum.end()) {
+            counter += mapSum.at(sum - k);
         }
+
+        mapSum[sum]++;
     }
 
     return counter;
